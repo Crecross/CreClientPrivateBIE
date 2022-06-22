@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework Condition=" '$(Configuration)' == 'BepInEx' ">netstandard2.1</TargetFramework>
+		<TargetFramework Condition=" '$(Configuration)' == 'MelonLoader' ">net472</TargetFramework>
+		<LangVersion>preview</LangVersion>
+		<Nullable>enable</Nullable>
+		<Configurations>BepInEx;MelonLoader</Configurations>
+		<RestoreAdditionalProjectSources>
+			https://nuget.bepinex.dev/v3/index.json;
+			https://nuget.kiraihooks.me/v3/index.json;
+		</RestoreAdditionalProjectSources>
+
+		<LoaderPath Condition=" '$(Configuration)' == 'BepInEx' ">C:/Program Files (x86)/Steam/steamapps/common/VRChat.BepInEx/BepInEx/plugins</LoaderPath>
+		<LoaderPath Condition=" '$(Configuration)' == 'MelonLoader' ">C:/Program Files (x86)/Steam/steamapps/common/VRChat/Mods</LoaderPath>
+	</PropertyGroup>
+
+	<ItemGroup Condition=" '$(Configuration)' == 'BepInEx' ">
+		<PackageReference Include="xKiraiChan.TypeScanner" Version="0.*" />
+		<PackageReference Include="KiraiMod.Core" Version="0.*" />
+		<PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-be.*" />
+		<PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="*" PrivateAssets="all" />
+		<PackageReference Include="VRC.GameLibs" Version="*-*" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(Configuration)' == 'MelonLoader' ">
+		<Reference Include="MelonLoader">
+			<HintPath>C:\Program Files (x86)\Steam\steamapps\common\VRChat\MelonLoader\MelonLoader.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" >
+		<Exec Command='COPY "$(TargetPath)" "$(LoaderPath)" > NUL'/>
+	</Target>
+
+</Project>
