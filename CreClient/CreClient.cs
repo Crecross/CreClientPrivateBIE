@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 #elif BEPINEX
 
 global using KiraiMod.Core;
+global using KiraiMod.Core.ModuleAPI;
 using BepInEx;
 using BepInEx.IL2CPP;
 
@@ -36,6 +37,8 @@ namespace CreClient
             Managers.DependencyManager.LoadReModCore();
 
             RuntimeHelpers.RunClassConstructor(typeof(CreClient).TypeHandle);
+
+            Managers.ModuleManager.LoadModules();
         }
     }
 
@@ -53,6 +56,8 @@ namespace CreClient
             Utils.SmartLogger.SetupBIE(Log);
 
             typeof(CreClient).Initialize();
+
+            KiraiMod.Core.Managers.ModuleManager.Register();
         }
     }
 
