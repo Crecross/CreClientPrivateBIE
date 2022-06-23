@@ -12,6 +12,8 @@ using BepInEx.IL2CPP;
 
 #endif
 
+using System.Net.Http;
+
 #if MELONLOADER
 
 [assembly: MelonInfo(typeof(CreClient.Mod), "CreClient", "2.0.0", "Crecross#9901")]
@@ -22,6 +24,7 @@ using BepInEx.IL2CPP;
 
 namespace CreClient
 {
+
 #if MELONLOADER
 
     public class Mod : MelonMod
@@ -30,7 +33,7 @@ namespace CreClient
         {
             Utils.SmartLogger.SetupML(LoggerInstance);
 
-            Utils.SmartLogger.PrintAll();
+            Managers.DependencyManager.LoadReModCore();
 
             RuntimeHelpers.RunClassConstructor(typeof(CreClient).TypeHandle);
         }
@@ -57,6 +60,8 @@ namespace CreClient
 
     public static class CreClient
     {
+        internal static HttpClient http = new();
+
         // Entry point for both loaders
         static CreClient()
         {
