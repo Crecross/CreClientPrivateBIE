@@ -4,15 +4,15 @@ namespace CreClient.Utils
 {
     public static class SmartLogger
     {
-        private static Action<string>? _Debug;
-        private static Action<string>? _Info;
-        private static Action<string>? _Message;
-        private static Action<string>? _Warning;
-        private static Action<string>? _Error;
-        private static Action<string>? _Fatal;
+        private static Action<string> _Debug;
+        private static Action<string> _Info;
+        private static Action<string> _Message;
+        private static Action<string> _Warning;
+        private static Action<string> _Error;
+        private static Action<string> _Fatal;
 
 #if MELONLOADER
-        private static MelonLoader.MelonLogger.Instance? logger;
+        private static MelonLoader.MelonLogger.Instance logger;
 
         public static void SetupML(MelonLoader.MelonLogger.Instance logger)
         {

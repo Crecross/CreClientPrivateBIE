@@ -1,5 +1,6 @@
 ﻿#if MELONLOADER
 
+using CreClient.Managers;
 using MelonLoader;
 using System;
 using System.Runtime.CompilerServices;
@@ -10,6 +11,7 @@ global using KiraiMod.Core;
 global using KiraiMod.Core.ModuleAPI;
 using BepInEx;
 using BepInEx.IL2CPP;
+using KiraiMod.Core.Managers;
 
 #endif
 
@@ -34,30 +36,24 @@ namespace CreClient
         {
             Utils.SmartLogger.SetupML(LoggerInstance);
 
-            Managers.DependencyManager.LoadReModCore();
+            DependencyManager.LoadReModCore();
 
             RuntimeHelpers.RunClassConstructor(typeof(CreClient).TypeHandle);
-
-            Managers.ModuleManager.LoadModules();
         }
     }
 
 #elif BEPINEX
 
-    [BepInPlugin(GUID, "CreClient", "2.0.0")]
+    [BepInPlugin(CreClient.GUID, "CreClient", "2.0.0")]
     [BepInDependency(KiraiMod.Core.Plugin.GUID)]
     [BepInDependency(TypeScanner.TypeScanner.GUID)]
     public class Plugin : BasePlugin
     {
-        public const string GUID = "com.github.Crecross.CreClient";
-
         public override void Load()
         {
             Utils.SmartLogger.SetupBIE(Log);
 
             typeof(CreClient).Initialize();
-
-            KiraiMod.Core.Managers.ModuleManager.Register();
         }
     }
 
@@ -65,12 +61,14 @@ namespace CreClient
 
     public static class CreClient
     {
+        public const string GUID = "com.github.Crecross.CreClient";
+
         internal static HttpClient http = new();
 
         // Entry point for both loaders
         static CreClient()
         {
-
+            ModuleManager.Register();
         }
     }
 }
