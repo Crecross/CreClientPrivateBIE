@@ -17,11 +17,13 @@ namespace CreClient.Managers
 
         public static Dictionary<string, ReMenuPage> pages = new();
 
+        public static event Action UILoaded;
+
         private static IEnumerator WaitForUiManager()
         {
-            while (VRCUiManager.field_Private_Static_VRCUiManager_0 == null) yield return null;
-            while (UIManager.field_Private_Static_UIManager_0 == null) yield return null;
-            while (GameObject.Find("UserInterface").GetComponentInChildren<VRC.UI.Elements.QuickMenu>(true) == null) yield return null;
+            while (GameObject.Find("UserInterface")?.GetComponentInChildren<VRC.UI.Elements.QuickMenu>(true) == null) yield return null;
+
+            UILoaded?.Invoke();
 
             pages[""] = ReMenuPage.Create("CreClient", true);
             ReTabButton.Create("CreClient", "Open the CreClient menu", "CreClient", null);
