@@ -32,6 +32,8 @@ namespace CreClient
 
     public class Mod : MelonMod
     {
+        public static event Action Update;
+
         public override void OnApplicationStart()
         {
             Utils.SmartLogger.SetupML(LoggerInstance);
@@ -40,6 +42,8 @@ namespace CreClient
 
             RuntimeHelpers.RunClassConstructor(typeof(CreClient).TypeHandle);
         }
+
+        public override void OnUpdate() => Update?.Invoke();
     }
 
 #elif BEPINEX

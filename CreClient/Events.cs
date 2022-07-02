@@ -14,5 +14,16 @@ namespace CreClient
             remove => KiraiMod.Core.UI.LegacyGUIManager.OnLoad -= value;
 #endif
         }
+
+        public static event Action Update
+        {
+#if MELONLOADER
+            add => Mod.Update += value;
+            remove => Mod.Update -= value;
+#elif BEPINEX
+            add => KiraiMod.Core.Events.Update += value;
+            remove => KiraiMod.Core.Events.Update -= value;
+#endif
+        }
     }
 }
