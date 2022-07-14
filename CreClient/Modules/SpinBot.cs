@@ -6,7 +6,7 @@ namespace CreClient.Modules
     public static class SpinBot
     {
         private static bool _enabled;
-        [Configure<bool>("Movement.SpinBot", false, false)]
+        [Configure<bool>("Movement.SpinBot.Enabled", false, false)]
         public static bool Enabled
         {
             get => _enabled;
@@ -18,6 +18,7 @@ namespace CreClient.Modules
                 if (value)
                 {
                     CameraMount = VRC.SDKBase.Networking.LocalPlayer.gameObject.transform.Find("CameraMount");
+
                     Events.Update += OnUpdate;
                 }
                 else
@@ -25,10 +26,13 @@ namespace CreClient.Modules
                     Events.Update -= OnUpdate;
 
                     if (CameraMount != null)
-                        CameraMount.rotation = Quaternion.identity;
+                        CameraMount.localRotation = Quaternion.Euler(0,0,0);
                 }
             }
         }
+
+        [Configure<float>("Movement.SpinBot.Speed", 1)]
+        public static float Speed;
 
         private static Transform CameraMount;
 
@@ -40,7 +44,7 @@ namespace CreClient.Modules
                 return;
             }
 
-            CameraMount.rotation = Quaternion.Euler(0, Time.time, 0);
+            CameraMount.localRotation = Quaternion.Euler(0, Time.time * Speed * 360, 0);
         }
     }
 }
