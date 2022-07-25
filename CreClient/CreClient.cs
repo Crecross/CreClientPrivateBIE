@@ -57,6 +57,8 @@ namespace CreClient
         {
             Utils.SmartLogger.SetupBIE(Log);
 
+            KiraiMod.Core.MessageAPI.Components.ModList.Mods.Add("CreClient");
+
             typeof(CreClient).Initialize();
         }
     }
